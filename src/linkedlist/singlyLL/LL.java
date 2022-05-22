@@ -5,7 +5,7 @@ public class LL {
     private ListNode head;
 
     private static class ListNode {
-        private int data; // Can be a generic type
+        private int data;
         private ListNode next; // Reference to next ListNode in list
 
         public ListNode(int data) {
@@ -130,6 +130,27 @@ public class LL {
         return current;
     }
 
+    public void deleteNode(int key) {
+        ListNode current = head;
+        ListNode temp = null;
+
+        if(current != null && current.data == key){
+            head = current.next;
+            return;
+        }
+
+        while(current != null && current.data != key){
+            temp = current;
+            current = current.next;
+        }
+
+        if(current == null){
+            return;
+        }
+
+        temp.next = current.next;
+    }
+
     public boolean find(int searchKey) {
         if(head == null) {
             return false;
@@ -226,26 +247,7 @@ public class LL {
         return head;
     }
 
-    public void deleteNode(int key) {
-        ListNode current = head;
-        ListNode temp = null;
 
-        if(current != null && current.data == key){
-            head = current.next;
-            return;
-        }
-
-        while(current != null && current.data != key){
-            temp = current;
-            current = current.next;
-        }
-
-        if(current == null){
-            return;
-        }
-
-        temp.next = current.next;
-    }
 
     public boolean containsLoop() {
         ListNode fastPtr = head;
@@ -260,54 +262,6 @@ public class LL {
             }
         }
         return false;
-    }
-
-    public ListNode startNodeInALoop() {
-        ListNode fastPtr = head;
-        ListNode slowPtr = head;
-
-        while(fastPtr != null && fastPtr.next != null) {
-            fastPtr = fastPtr.next.next;
-            slowPtr = slowPtr.next;
-
-            if(fastPtr == slowPtr) {
-                return getStartingNode(slowPtr);
-            }
-        }
-        return null;
-    }
-
-    private ListNode getStartingNode(ListNode slowPtr) {
-        ListNode temp = head;
-        while(temp != slowPtr){
-            temp = temp.next;
-            slowPtr = slowPtr.next;
-        }
-        return temp; // starting node of the loop
-    }
-
-    public void removeLoop() {
-        ListNode fastPtr = head;
-        ListNode slowPtr = head;
-
-        while(fastPtr != null && fastPtr.next != null) {
-            fastPtr = fastPtr.next.next;
-            slowPtr = slowPtr.next;
-
-            if(fastPtr == slowPtr) {
-                removeLoop(slowPtr);
-                return;
-            }
-        }
-    }
-
-    private void removeLoop(ListNode slowPtr) {
-        ListNode temp = head;
-        while(temp.next != slowPtr.next){
-            temp = temp.next;
-            slowPtr = slowPtr.next;
-        }
-        slowPtr.next = null;
     }
 
     public void createALoopInLinkedList() {
@@ -327,27 +281,15 @@ public class LL {
         sixth.next = third;
     }
 
-
-
     public static void main(String[] args) {
         LL sll = new LL();
 
-        // System.out.println(sll.containsLoop());
-        // System.out.println(sll.startNodeInALoop().data);
-        // sll.removeLoop();
 
-      /*  sll.insertLast(5);
-        sll.insertLast(7);
-        sll.insertLast(90);
-        sll.insertLast(11);*/
+        sll.createALoopInLinkedList();
+        System.out.println(sll.containsLoop());
 
-        /*sll.deleteLast();
-        sll.deleteLast();
-        sll.deleteLast();
-        System.out.println(sll.deleteLast().data);*/
-        sll.deleteFirst();
 
-        sll.display();
+
 
 
     }
